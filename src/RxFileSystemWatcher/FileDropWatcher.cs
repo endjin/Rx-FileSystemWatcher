@@ -61,10 +61,10 @@
 		/// </summary>
 		public void PollExisting()
 		{
-            foreach (var existingFile in Directory.GetFiles(this.path, this.filter))
-            {
-                this.pollResults.OnNext(new FileDropped(existingFile));
-            }
-        }
+			foreach (var existingFile in Directory.GetFiles(this.path, this.filter))
+			{
+				this.pollResults.OnNext(new FileDropped(existingFile));
+			}
+		}
 	}
 }
