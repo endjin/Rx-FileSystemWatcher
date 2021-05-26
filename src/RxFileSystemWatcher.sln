@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.31205.134
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxFileSystemWatcher", "RxFileSystemWatcher\RxFileSystemWatcher.csproj", "{DADEDC55-1C23-4529-8D06-D24CB88F7793}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxFileSystemWatcher.Tests", "Tests\RxFileSystemWatcher.Tests.csproj", "{54716BA6-C555-4E61-8160-CE62EA23F610}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "RxFileSystemWatcher.Tests", "RxFileSystemWatcher.Tests\RxFileSystemWatcher.Tests.csproj", "{54716BA6-C555-4E61-8160-CE62EA23F610}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
