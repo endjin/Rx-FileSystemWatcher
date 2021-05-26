@@ -4,7 +4,7 @@
 	using System.IO;
 	using NUnit.Framework;
 
-	public class FileIntegrationTestsBase : AssertionHelper
+	public class FileIntegrationTestsBase
 	{
 		protected string TempPath;
 
@@ -22,6 +22,7 @@
 			{
 				return;
 			}
+
 			Directory.Delete(TempPath, true);
 		}
 	}

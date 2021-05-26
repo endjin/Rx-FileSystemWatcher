@@ -6,6 +6,9 @@
 	using System.Threading.Tasks;
 	using NUnit.Framework;
 	using RxFileSystemWatcher;
+	using NExpect;
+
+	using static NExpect.Expectations;
 
 	[TestFixture]
 	public class FileDropWatcherTests : FileIntegrationTestsBase
@@ -22,9 +25,9 @@
 				var monitoredFile = Path.Combine(TempPath, "Monitored.Txt");
 				File.WriteAllText(monitoredFile, "foo");
 
-				var dropped = await firstDropped;
-				Expect(dropped.Name, Is.EqualTo("Monitored.Txt"));
-				Expect(dropped.FullPath, Is.EqualTo(monitoredFile));
+                var dropped = await firstDropped;
+                Expect(dropped.Name).To.Equal("Monitored.Txt");
+				Expect(dropped.FullPath).To.Equal(monitoredFile);
 			}
 		}
 
@@ -43,8 +46,8 @@
 				File.Move(otherFile, monitoredFile);
 
 				var dropped = await firstDropped;
-				Expect(dropped.Name, Is.EqualTo("Monitored.Txt"));
-				Expect(dropped.FullPath, Is.EqualTo(monitoredFile));
+				Expect(dropped.Name).To.Equal("Monitored.Txt");
+				Expect(dropped.FullPath).To.Equal(monitoredFile);
 			}
 		}
 
@@ -62,8 +65,8 @@
 				File.WriteAllText(monitoredFile, "bar");
 
 				var dropped = await firstDropped;
-				Expect(dropped.Name, Is.EqualTo("Monitored.Txt"));
-				Expect(dropped.FullPath, Is.EqualTo(monitoredFile));
+				Expect(dropped.Name).To.Equal("Monitored.Txt");
+				Expect(dropped.FullPath).To.Equal(monitoredFile);
 			}
 		}
 
@@ -80,8 +83,8 @@
 				watcher.PollExisting();
 
 				var dropped = await firstDropped;
-				Expect(dropped.Name, Is.EqualTo("Monitored.Txt"));
-				Expect(dropped.FullPath, Is.EqualTo(monitoredFile));
+				Expect(dropped.Name).To.Equal("Monitored.Txt");
+				Expect(dropped.FullPath).To.Equal(monitoredFile);
 			}
 		}
 
@@ -99,9 +102,9 @@
                 watcher.PollExisting();
 
                 var dropped = await secondDropped;
-                Expect(dropped.Name, Is.EqualTo("Monitored.Txt"));
-                Expect(dropped.FullPath, Is.EqualTo(monitoredFile));
-            }
+				Expect(dropped.Name).To.Equal("Monitored.Txt");
+				Expect(dropped.FullPath).To.Equal(monitoredFile);
+			}
         }
     }
 }

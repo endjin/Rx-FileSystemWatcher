@@ -6,6 +6,9 @@
 	using System.Threading.Tasks;
 	using NUnit.Framework;
 	using RxFileSystemWatcher;
+	using NExpect;
+
+	using static NExpect.Expectations;
 
 	[TestFixture]
 	public class ObservableFileSystemWatcherTests : FileIntegrationTestsBase
@@ -22,8 +25,8 @@
 				File.WriteAllText(Path.Combine(TempPath, "Changed.Txt"), "foo");
 
 				var changed = await firstChanged;
-				Expect(changed.ChangeType, Is.EqualTo(WatcherChangeTypes.Changed));
-				Expect(changed.Name, Is.EqualTo("Changed.Txt"));
+				Expect(changed.ChangeType).To.Equal(WatcherChangeTypes.Changed);
+				Expect(changed.Name).To.Equal("Changed.Txt");
 			}
 		}
 
@@ -40,8 +43,8 @@
 				File.WriteAllText(filePath, "foo");
 
 				var created = await firstCreated;
-				Expect(created.ChangeType, Is.EqualTo(WatcherChangeTypes.Created));
-				Expect(created.Name, Is.EqualTo("Created.Txt"));
+				Expect(created.ChangeType).To.Equal(WatcherChangeTypes.Created);
+				Expect(created.Name).To.Equal("Created.Txt");
 			}
 		}
 
@@ -59,8 +62,8 @@
 				File.Delete(filePath);
 
 				var deleted = await firstDeleted;
-				Expect(deleted.ChangeType, Is.EqualTo(WatcherChangeTypes.Deleted));
-				Expect(deleted.Name, Is.EqualTo("ToDelete.Txt"));
+				Expect(deleted.ChangeType).To.Equal(WatcherChangeTypes.Deleted);
+				Expect(deleted.Name).To.Equal("ToDelete.Txt");
 			}
 		}
 
@@ -76,7 +79,7 @@
 				Directory.Delete(TempPath);
 
 				var error = await firstError;
-				Expect(error.GetException().Message, Is.EqualTo("Access is denied"));
+				Expect(error.GetException().Message).To.Equal("Access is denied.");
 			}
 		}
 
@@ -95,8 +98,8 @@
 				File.Move(originalPath, renamedPath);
 
 				var renamed = await firstRenamed;
-				Expect(renamed.OldFullPath, Is.EqualTo(originalPath));
-				Expect(renamed.FullPath, Is.EqualTo(renamedPath));
+				Expect(renamed.OldFullPath).To.Equal(originalPath);
+				Expect(renamed.FullPath).To.Equal(renamedPath);
 			}
 		}
 	}
