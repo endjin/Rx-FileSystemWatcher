@@ -4,23 +4,20 @@
 
 	public class FileDropped
 	{
-		public FileDropped()
-		{
-		}
-
 		public FileDropped(FileSystemEventArgs fileEvent)
 		{
-			Name = fileEvent.Name;
-			FullPath = fileEvent.FullPath;
+			this.Name = fileEvent.Name;
+			this.FullPath = fileEvent.FullPath;
 		}
 
 		public FileDropped(string filePath)
 		{
-			Name = Path.GetFileName(filePath);
-			FullPath = filePath;
+			this.Name = Path.GetFileName(filePath);
+			this.FullPath = filePath;
 		}
 
-		public string Name { get; set; }
-		public string FullPath { get; set; }
+		public string Name { get; private set; }
+
+		public string FullPath { get; private set; }
 	}
 }

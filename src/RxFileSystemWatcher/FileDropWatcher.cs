@@ -2,27 +2,26 @@
 {
 	using System;
 	using System.IO;
-	using System.Linq;
 	using System.Reactive.Linq;
 	using System.Reactive.Subjects;
 
 	/// <summary>
-	///     An observable abstraction to monitor for files dropped into a directory
+	/// An observable abstraction to monitor for files dropped into a directory
 	/// </summary>
 	public class FileDropWatcher : IDisposable
 	{
-		private readonly string _Path;
-		private readonly string _Filter;
-		private readonly ObservableFileSystemWatcher _Watcher;
-		private readonly Subject<FileDropped> _PollResults = new Subject<FileDropped>();
+		private readonly string path;
+		private readonly string filter;
+		private readonly ObservableFileSystemWatcher watcher;
+		private readonly Subject<FileDropped> pollResults = new Subject<FileDropped>();
 
 		public IObservable<FileDropped> Dropped { get; private set; }
 
 		public FileDropWatcher(string path, string filter)
 		{
-			_Path = path;
-			_Filter = filter;
-			_Watcher = new ObservableFileSystemWatcher(w =>
+			this.path = path;
+			this.filter = filter;
+			this.watcher = new ObservableFileSystemWatcher(w =>
 			{
 				w.Path = path;
 				w.Filter = filter;
@@ -30,41 +29,41 @@
 				w.NotifyFilter = NotifyFilters.LastWrite | NotifyFilters.FileName;
 			});
 
-			var renames = _Watcher.Renamed.Select(r => new FileDropped(r));
-			var creates = _Watcher.Created.Select(c => new FileDropped(c));
-			var changed = _Watcher.Changed.Select(c => new FileDropped(c));
+			var renames = this.watcher.Renamed.Select(r => new FileDropped(r));
+			var creates = this.watcher.Created.Select(c => new FileDropped(c));
+			var changed = this.watcher.Changed.Select(c => new FileDropped(c));
 
-			Dropped = creates
+			this.Dropped = creates
 				.Merge(renames)
 				.Merge(changed)
-				.Merge(_PollResults);
+				.Merge(this.pollResults);
 		}
 
 		public void Start()
 		{
-			_Watcher.Start();
+			this.watcher.Start();
 		}
 
 		public void Stop()
 		{
-			_Watcher.Stop();
+			this.watcher.Stop();
 		}
 
 		public void Dispose()
 		{
-			_Watcher.Dispose();
+			this.watcher.Dispose();
 		}
 
 		/// <summary>
-		///     Use this to scan for files and raise dropped events for any results.
-		///     This is great to use right after starting the watcher to find existing files.
-		///     Existing files will trigger dropped events through the Dropped stream.
+		/// Use this to scan for files and raise dropped events for any results.
+		/// This is great to use right after starting the watcher to find existing files.
+		/// Existing files will trigger dropped events through the Dropped stream.
 		/// </summary>
 		public void PollExisting()
 		{
-            foreach (var existingFile in Directory.GetFiles(_Path, _Filter))
+            foreach (var existingFile in Directory.GetFiles(this.path, this.filter))
             {
-                _PollResults.OnNext(new FileDropped(existingFile));
+                this.pollResults.OnNext(new FileDropped(existingFile));
             }
         }
 	}
