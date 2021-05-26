@@ -11,19 +11,19 @@
 		[SetUp]
 		public void BeforeEachTest()
 		{
-			TempPath = Guid.NewGuid().ToString();
-			Directory.CreateDirectory(TempPath);
+			this.TempPath = Guid.NewGuid().ToString();
+			Directory.CreateDirectory(this.TempPath);
 		}
 
 		[TearDown]
 		public void AfterEachTest()
 		{
-			if (!Directory.Exists(TempPath))
+			if (!Directory.Exists(this.TempPath))
 			{
 				return;
 			}
 
-			Directory.Delete(TempPath, true);
+			Directory.Delete(this.TempPath, true);
 		}
 	}
 }
